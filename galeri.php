@@ -1,0 +1,62 @@
+<?php 
+error_reporting(0);
+include 'db.php';
+$kontak = mysqli_query($conn, "SELECT admin_telp, admin_email, admin_address FROM tb_admin WHERE admin_id = 2");
+$a = mysqli_fetch_object($kontak);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB GALERI FOTO</title>
+    <link rel="stylesheet" type="type/css" href="css/style.css">
+</head>
+<body>
+    <!-- header -->
+    <header>
+        <div div class="container">
+            <h1><a href="index.php">WEB GALERI FOTO</a></h1>
+            <ul>
+                <li><a href="galeri.php">Galeri</a></li>
+                <li><a href="registrasi.php">register</a></li>
+                <li><a href="login.php">login</a></li>
+            </ul>
+</div>
+    </header>
+    <!-- search -->
+    <div class="search">
+        <div class="container">
+            <form action="galeri.php">
+                <input type="text" name="search" placeholder="cari foto" value="<?php echo $_GET['search'] ?>" />
+                <input type="hidden" name="kat" value="<?php echo $_GET['kat'] ?>" />
+                <input type="submit" name="cari" value="cari foto"/>
+            </form>
+        </div>
+    </div>
+    <!-- new product -->
+    <div class="section">
+        <div class="container">
+            <h3>Galeri Foto</h3>
+            <div class="box">
+                <?php
+                if($_GET['search'] != '' || $_GET['kat'] != ''){
+                    $where ="AND image_name LIKE '%".$_GET['search']."%' AND category_id LIKE '%".$_GET['kat']."%' ";
+                }
+                $foto = mysqli_query($conn, "SELECT * FROM tb_image WHERE image_status = 1 $where ORDER BY image_id DESC");
+                if(mysqli_num_rows($foto) > 0){
+                    while($p = mysqli_fetch_array($foto)){
+                    ?>
+                    <a href="detail-image.php?id=<?php echo $p['image_id'] ?>">
+                    <div class="col-4">
+                        <img src="foto/<?php echo $p['image']  ?>" height="150px" />
+                        <p class="nama"><?php echo substr($p</p>
+                         </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>
